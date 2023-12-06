@@ -37,5 +37,28 @@ const limpiarFormulario = () => {
     formularioContacto.reset();
 }
 
+const cargaInicial = () => {
+  if(agenda.length > 0){
+    agenda.map((contacto, posicion) => crearFila(contacto, posicion + 1) )
+  }
+}
+
+const crearFila = (contacto, fila) => {
+  const tablaContacto = document.querySelector("#tablaContacto");
+  tablaContacto.innerHTML += `<tr>
+  <th scope="row">${fila}</th>
+  <td>${contacto.nombre}</td>
+  <td>${contacto.apellido}</td>
+  <td>${contacto.email}</td>
+  <td>${contacto.telefono}</td>
+  <td>
+    <a class="btn btn-primary" href="./pages/detalleContacto.html">Ver mas</a>
+    <button class="btn btn-warning">Editar</button>
+    <button class="btn btn-danger">Borrar</button>
+  </td>
+</tr>`;
+}
+
 //logica
 formularioContacto.addEventListener("submit", crearContacto);
+cargaInicial();
