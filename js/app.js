@@ -16,7 +16,7 @@ const crearContacto = (e) => {
   console.log("desde la funcion crear contacto");
   //crear el objeto con los datos del formulario
   const contactoNuevo = new Contacto(
-    1,
+    crypto.randomUUID(),
     nombre.value,
     apellido.value,
     email.value,
