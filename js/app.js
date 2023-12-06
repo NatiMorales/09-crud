@@ -26,24 +26,24 @@ const crearContacto = (e) => {
   agenda.push(contactoNuevo);
   //guardar la agenda en localstorage
   guardarEnLocalStorage();
-  console.log(agenda); 
+  console.log(agenda);
   limpiarFormulario();
   //dibujar una fila
   crearFila(contactoNuevo, agenda.length);
 };
 const guardarEnLocalStorage = () => {
-    localStorage.setItem("agendaKey",JSON.stringify(agenda));
+  localStorage.setItem("agendaKey", JSON.stringify(agenda));
 };
 
 const limpiarFormulario = () => {
-    formularioContacto.reset();
-}
+  formularioContacto.reset();
+};
 
 const cargaInicial = () => {
-  if(agenda.length > 0){
-    agenda.map((contacto, posicion) => crearFila(contacto, posicion + 1) );
+  if (agenda.length > 0) {
+    agenda.map((contacto, posicion) => crearFila(contacto, posicion + 1));
   }
-}
+};
 
 const crearFila = (contacto, fila) => {
   const tablaContacto = document.querySelector("#tablaContacto");
@@ -59,23 +59,46 @@ const crearFila = (contacto, fila) => {
     <button class="btn btn-danger" onclick="borrarContacto('${contacto.id}')">Borrar</button>
   </td>
 </tr>`;
-}
+};
 
 window.borrarContacto = (idContacto) => {
-  console.log("desde la funcion borrar Contacto")
-  //buscar por id un contacto y obtener su posicion. findIndex
-  const posicionContactoBuscado = agenda.findIndex((contacto) => contacto.id === idContacto);
-  console.log(posicionContactoBuscado);
-  //borrarlo del array - splice(posicion del elemento, cuantos quiero borrar)
-  agenda.splice(posicionContactoBuscado,1);
-  //actualizar el localstorage
-  guardarEnLocalStorage();
-  //borrar la fila de la tabla
-  const tablaContacto = document.querySelector("tbody");
-  console.log(tablaContacto.children[posicionContactoBuscado]);
-  tablaContacto.removeChild(tablaContacto.children[posicionContactoBuscado]);
-  //actualizar todos los td de la tabla con el nro de fila correcto.
-}
+  Swal.fire({
+    title: "¿Estas seguro de borrar el contacto?",
+    text: "No puedes revertir este paso posteriormente",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Borrar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log("desde la funcion borrar Contacto");
+      //buscar por id un contacto y obtener su posicion. findIndex
+      const posicionContactoBuscado = agenda.findIndex(
+        (contacto) => contacto.id === idContacto
+      );
+      console.log(posicionContactoBuscado);
+      //borrarlo del array - splice(posicion del elemento, cuantos quiero borrar)
+      agenda.splice(posicionContactoBuscado, 1);
+      //actualizar el localstorage
+      guardarEnLocalStorage();
+      //borrar la fila de la tabla
+      const tablaContacto = document.querySelector("tbody");
+      console.log(tablaContacto.children[posicionContactoBuscado]);
+      tablaContacto.removeChild(
+        tablaContacto.children[posicionContactoBuscado]
+      );
+      //actualizar todos los td de la tabla con el nro de fila correcto.
+      //agregar la logica para borrar el contacto
+      Swal.fire({
+        title: "Contacto eliminado",
+        text: "El contacto seleccionado fue eliminado correctamente",
+        icon: "success",
+      });
+    }
+  });
+};
 
 //logica
 formularioContacto.addEventListener("submit", crearContacto);
