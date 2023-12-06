@@ -2,7 +2,7 @@ import Contacto from "./classContacto.js";
 
 //variables globales
 //const contactoNuevo = new Contacto(1, "algun nombre", "apellido", "skjdkfj@jf.com", 734789);
-const agenda = JSON.parse(localStorage.getItem("agendaKey"));
+const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
 const formularioContacto = document.querySelector("form");
 const nombre = document.querySelector("#nombre"),
   apellido = document.querySelector("#apellido"),
@@ -41,7 +41,7 @@ const limpiarFormulario = () => {
 
 const cargaInicial = () => {
   if(agenda.length > 0){
-    agenda.map((contacto, posicion) => crearFila(contacto, posicion + 1) )
+    agenda.map((contacto, posicion) => crearFila(contacto, posicion + 1) );
   }
 }
 
