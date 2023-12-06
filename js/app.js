@@ -71,6 +71,10 @@ window.borrarContacto = (idContacto) => {
   //actualizar el localstorage
   guardarEnLocalStorage();
   //borrar la fila de la tabla
+  const tablaContacto = document.querySelector("tbody");
+  console.log(tablaContacto.children[posicionContactoBuscado]);
+  tablaContacto.removeChild(tablaContacto.children[posicionContactoBuscado]);
+  //actualizar todos los td de la tabla con el nro de fila correcto.
 }
 
 //logica
