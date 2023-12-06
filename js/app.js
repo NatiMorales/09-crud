@@ -28,6 +28,8 @@ const crearContacto = (e) => {
   guardarEnLocalStorage();
   console.log(agenda); 
   limpiarFormulario();
+  //dibujar una fila
+  crearFila(contactoNuevo, agenda.length);
 };
 const guardarEnLocalStorage = () => {
     localStorage.setItem("agendaKey",JSON.stringify(agenda));
