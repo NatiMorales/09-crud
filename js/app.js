@@ -56,9 +56,21 @@ const crearFila = (contacto, fila) => {
   <td>
     <a class="btn btn-primary" href="./pages/detalleContacto.html">Ver mas</a>
     <button class="btn btn-warning">Editar</button>
-    <button class="btn btn-danger">Borrar</button>
+    <button class="btn btn-danger" onclick="borrarContacto('${contacto.id}')">Borrar</button>
   </td>
 </tr>`;
+}
+
+window.borrarContacto = (idContacto) => {
+  console.log("desde la funcion borrar Contacto")
+  //buscar por id un contacto y obtener su posicion. findIndex
+  const posicionContactoBuscado = agenda.findIndex((contacto) => contacto.id === idContacto);
+  console.log(posicionContactoBuscado);
+  //borrarlo del array - splice(posicion del elemento, cuantos quiero borrar)
+  agenda.splice(posicionContactoBuscado,1);
+  //actualizar el localstorage
+  guardarEnLocalStorage();
+  //borrar la fila de la tabla
 }
 
 //logica
