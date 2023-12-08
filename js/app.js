@@ -1,4 +1,5 @@
 import Contacto from "./classContacto.js";
+import { validarCantidadCaracteres, validarEmail } from "./validaciones.js";
 
 //variables globales
 //const contactoNuevo = new Contacto(1, "algun nombre", "apellido", "skjdkfj@jf.com", 734789);
@@ -14,22 +15,32 @@ console.log(formularioContacto);
 const crearContacto = (e) => {
   e.preventDefault();
   console.log("desde la funcion crear contacto");
-  //crear el objeto con los datos del formulario
-  const contactoNuevo = new Contacto(
-    crypto.randomUUID(),
-    nombre.value,
-    apellido.value,
-    email.value,
-    telefono.value
-  );
-  //guardar el objeto en un array agenda
-  agenda.push(contactoNuevo);
-  //guardar la agenda en localstorage
-  guardarEnLocalStorage();
-  console.log(agenda);
-  limpiarFormulario();
-  //dibujar una fila
-  crearFila(contactoNuevo, agenda.length);
+  //validar los datos ingresados por el usuario
+  if (
+    validarCantidadCaracteres(nombre.value, 3, 50) &&
+    validarCantidadCaracteres(apellido.value, 4, 40) &&
+    validarEmail(email.value)
+    ) {
+    //los datos son válidos
+    //crear el objeto con los datos del formulario
+    const contactoNuevo = new Contacto(
+      crypto.randomUUID(),
+      nombre.value,
+      apellido.value,
+      email.value,
+      telefono.value
+    );
+    //guardar el objeto en un array agenda
+    agenda.push(contactoNuevo);
+    //guardar la agenda en localstorage
+    guardarEnLocalStorage();
+    console.log(agenda);
+    limpiarFormulario();
+    //dibujar una fila
+    crearFila(contactoNuevo, agenda.length);
+  } else {
+    alert("cargaste datos erroneos");
+  }
 };
 const guardarEnLocalStorage = () => {
   localStorage.setItem("agendaKey", JSON.stringify(agenda));
@@ -102,8 +113,8 @@ window.borrarContacto = (idContacto) => {
 
 window.detalleContacto = (idContacto) => {
   console.log(window.location);
-  window.location.href = window.location.origin + '/pages/detalleContacto.html?id=' + idContacto;
-
+  window.location.href =
+    window.location.origin + "/pages/detalleContacto.html?id=" + idContacto;
 };
 
 //logica
